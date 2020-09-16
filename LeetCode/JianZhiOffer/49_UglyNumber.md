@@ -48,5 +48,19 @@ int GetUglyNumber_Solution2(int index)
 
 
 
+```python
+class Solution:
+    def nthUglyNumber(self, n: int) -> int:
+        res = [1]
+        i1 =i2 = i3 = 0
+        while len(res) < n:
+            mn = min(res[i1]*2, res[i2]*3, res[i3]*5)
+            if mn == res[i1]*2: i1 += 1
+            if mn == res[i2]*3: i2 += 1
+            if mn == res[i3]*5: i3 += 1
+            res.append(mn)
+        return res[-1]
+```
+
 
 

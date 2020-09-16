@@ -128,3 +128,90 @@ int main()
 }
 ```
 
+
+
+## 题目描述
+
+Caima 给你了所有 $[a,b]$ 范围内的整数。一开始每个整数都属于各自的集合。每次你需要选择两个属于不同集合的整数，如果这两个整数拥有大于等于 p 的公共质因数，那么把它们所在的集合合并。
+
+重复如上操作，直到没有可以合并的集合为止。
+
+现在 Caima 想知道，最后有多少个集合。
+
+## 输入格式
+
+一行，共三个整数 a,b,p用空格隔开。
+
+## 输出格式
+
+一个数，表示最终集合的个数。
+
+**输入**
+
+```
+10 20 3
+```
+
+**输出**
+
+```
+7
+```
+
+## 说明/提示
+
+#### 样例 1 解释
+
+对于样例给定的数据，最后有 \{10,20,12,15,18\},\{13\},\{14\},\{16\},\{17\},\{19\},\{11\}共 7 个集合，所以输出应该为 7。
+
+```c++
+#include<iostream>
+ 
+using namespace std;
+ 
+const int N = 100000 + 10;
+ 
+int prime[N],pre[N];
+ 
+int find(int x)
+{
+	if(x != pre[x])
+		pre[x] = find(pre[x]);
+	return pre[x];
+}
+ 
+int main()
+{
+	int a,b,p;
+	cin>>a>>b>>p;
+	int ans = b - a + 1;//合并一个就减一 
+	for(int i=a; i<=b; i++) pre[i] = i;
+	for(int i=2; i<=b; i++)
+	{
+		if(!prime[i])
+		{
+			if(i >= p)
+			{
+				for(int j=i+i; j<=b; j+=i)
+				{
+					prime[j] = 1;
+					if(j - i >= a && find(j) != find(j-i))//是同一个素数的倍数就合并 
+					{
+						pre[find(j)] = find(j-i);
+						ans--;
+					}
+				}
+			}
+			else
+			{
+				for(int j=i*2; j<=b; j+=i)
+					prime[j] = 1;
+			}
+		}		
+	}
+	cout<<ans;
+	return 0;
+}
+ 
+```
+
