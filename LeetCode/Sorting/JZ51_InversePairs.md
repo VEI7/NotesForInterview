@@ -61,6 +61,71 @@ int InversePairsCore(int* data, int* copy, int start, int end)
 
 
 
+### Solution2
+
+采用二叉搜索树
+
+```c++
+/*二叉树数据结构，新增count属性，保存左节点的个数*/
+typedef struct tree
+{
+	int data;
+	int count;//保存当前节点有多少个左节点
+	struct tree *left;
+	struct tree *right;
+	tree(int x):data(x),left(NULL),right(NULL),count(0){}
+}Tree,*TreeNode;
+
+/*通过二叉树进行计算*/
+void insert(Tree *root, Tree *node, int &small_count) {
+	if (node -> data <= root ->data) {
+		root -> count ++; //当前节点左节点个数累加，因为插入的节点已经比当前节点小了
+		if (root -> left) {
+			insert(root->left,node, small_count);
+		} else {
+			root -> left = node;
+		}
+	} else {
+		/*如果大于当前节点，则说明当前节点的所有左节点包括自己都比插入节点小，进行赋值*/
+		small_count += root -> count + 1; 
+		if (root ->right) {
+			insert(root ->right, node, small_count);
+		} else {
+			root -> right = node;
+		}
+	}
+}
+
+
+/*获取最终的逆序数组*/
+vector<int> get_smaller_numbers(std::vector<int> &arr) {
+	vector<int> count; //逆序数量的数组
+	vector<Tree *> node; //二叉树节点数组
+	Tree *tmp;
+
+	for (int i  = arr.size() - 1;i >= 0; i--) {
+		node.push_back(new tree(arr[i]));
+	}
+
+	count.push_back(0);
+	for (int i = 1;i < arr.size(); ++i) {
+		int small_count = 0;
+		insert(node[0],node[i],small_count);
+		count.push_back(small_count);
+	}
+	/*对计算好的结果进行逆序，恢复初始结果*/
+	reverse(count.begin(), count.end());
+	return count;
+}
+
+```
+
+
+
+
+
+
+
 作为程序员的小Q，他的数列和其他人的不太一样，他有
 
 
