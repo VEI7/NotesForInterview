@@ -22,6 +22,20 @@ min_heap = []
 heapq.heappush(min_heap, num)
 heapq.heappop(min_heap)
 min_heap[0] #小顶堆
+
+
+from collections import deque
+d = deque()
+d.append(x) #将x添加到deque的右侧；
+d.appendleft(x) #将x添加到deque的左侧；
+d.pop() #移除和返回deque中最右侧的元素，如果没有元素，将会报出IndexError；
+d.popleft() #移除和返回deque中最左侧的元素，如果没有元素，将会报出IndexError；
+d.clear() #将deque中的元素全部删除，最后长度为0；
+d.count(x) #返回deque中元素等于x的个数；
+d.extend(iterable) #将可迭代变量iterable中的元素添加至deque的右侧；
+d.extendleft(iterable) #将变量iterable中的元素添加至deque的左侧，往左侧添加序列的顺序与可迭代变量iterable中的元素相反；
+d.remove(value) #移除第一次出现的value，如果没有找到，报出ValueError；
+d.reverse() #反转deque中的元素，并返回None；
 ```
 
 #### 2.stack
@@ -33,5 +47,3 @@ stack = []
 stack.append(c)
 stack.pop() # list.pop(index=-1)
 ```
-
-3.
